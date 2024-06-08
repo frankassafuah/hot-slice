@@ -51,7 +51,7 @@ function Order() {
   );
 }
 
-export async function loader({ params }) {
+export async function loader({ params }) { // the loader automatically receives the route params as a paramter 
   const order = await getOrder(params.orderId);
   return order;
 }
