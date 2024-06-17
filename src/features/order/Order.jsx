@@ -1,7 +1,7 @@
 // Test ID: IIDSAT
 
 import OrderItem from './OrderItem';
-
+import UpdateOrder from './UpdateOrder';
 import { useFetcher, useLoaderData } from 'react-router-dom';
 import { getOrder } from '../../services/apiRestaurant';
 import {
@@ -69,7 +69,8 @@ function Order() {
             item={item}
             key={item.pizzaId}
             ingredients={
-              fetcher?.data?.find((el) => el.id === item.pizzaId)?.ingredients ?? []
+              fetcher?.data?.find((el) => el.id === item.pizzaId)
+                ?.ingredients ?? []
             }
             isLoadingIngredients={fetcher.state === 'loading'}
           />
@@ -89,6 +90,7 @@ function Order() {
           To pay on delivery: {formatCurrency(orderPrice + priorityPrice)}
         </p>
       </div>
+      {!priority && <UpdateOrder order={order} />}
     </div>
   );
 }
