@@ -1,7 +1,7 @@
 import { formatCurrency } from '../../utils/helpers';
 
 function OrderItem({ item, isLoadingIngredients, ingredients }) {
-  const { quantity, name, totalPrice } = item;
+  const { quantity, name, total_price } = item;
 
   return (
     <li className="py-3 space-y-1">
@@ -9,7 +9,7 @@ function OrderItem({ item, isLoadingIngredients, ingredients }) {
         <p>
           <span className="font-bold">{quantity}&times;</span> {name}
         </p>
-        <p className="font-bold">{formatCurrency(totalPrice)}</p>
+        <p className="font-bold">{formatCurrency(total_price)}</p>
       </div>
       <p className="text-sm capitalize italic text-stone-500">
         {isLoadingIngredients ? 'Loading...' : ingredients.join(', ')}

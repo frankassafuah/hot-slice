@@ -58,10 +58,15 @@ function CreateOrder() {
         <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center">
           <label className="sm:basis-40">Phone number</label>
           <div className="grow">
-            <input className="input w-full" type="tel" name="phone" required />
-            {formErrors?.phone && (
+            <input
+              className="input w-full"
+              type="tel"
+              name="phone_number"
+              required
+            />
+            {formErrors?.phone_number && (
               <p className="mt-2 rounded-md bg-red-100 p-2 text-xs text-red-700">
-                {formErrors.phone}
+                {formErrors.phone_number}
               </p>
             )}
           </div>
@@ -73,7 +78,7 @@ function CreateOrder() {
             <input
               className="input w-full"
               type="text"
-              name="address"
+              name="delivery_address"
               disabled={isLoadingAddress}
               defaultValue={address}
               required
@@ -138,16 +143,19 @@ export async function action({ request }) {
   // action fuction automatically gets request that is to be sent to the api as an argument
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
+  const cart = JSON.parse(data.cart);
+  const totalOrderAmount = cart.reduce((acc, cur) => acc + cur.total_price, 0);
 
   const order = {
     ...data,
-    cart: JSON.parse(data.cart),
+    cart,
+    total_order_amount: totalOrderAmount,
     priority: data.priority === 'true',
   };
 
   const errors = {};
-  if (!isValidPhone(order.phone))
-    errors.phone =
+  if (!isValidPhone(order.phone_number))
+    errors.phone_number =
       'Please give us your correct phone number. We might need it to contact you.';
 
   if (Object.keys(errors).length > 0) return errors;

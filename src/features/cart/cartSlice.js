@@ -12,22 +12,22 @@ const cartSlice = createSlice({
     },
     deleteItem(state, action) {
       state.cart = state.cart.filter(
-        (cartItem) => cartItem.pizzaId !== action.payload
+        (cartItem) => cartItem.id !== action.payload
       );
     },
     increaseItemQuantity(state, action) {
       const item = state.cart.find(
-        (cartItem) => cartItem.pizzaId === action.payload
+        (cartItem) => cartItem.id === action.payload
       );
       item.quantity++;
-      item.totalPrice = item.quantity * item.unitPrice;
+      item.total_price = item.quantity * item.price;
     },
     decreaseItemQuantity(state, action) {
       const item = state.cart.find(
-        (cartItem) => cartItem.pizzaId === action.payload
+        (cartItem) => cartItem.id === action.payload
       );
       item.quantity--;
-      item.totalPrice = item.quantity * item.unitPrice;
+      item.total_price = item.quantity * item.price;
       if (item.quantity === 0) cartSlice.caseReducers.deleteItem(state, action);
     },
     clearCart(state) {
@@ -52,11 +52,11 @@ export const getTotalCartQuantity = (state) =>
   state.cart.cart.reduce((sum, curr) => sum + curr.quantity, 0);
 
 export const getTotalCartPrice = (state) =>
-  state.cart.cart.reduce((sum, curr) => sum + curr.totalPrice, 0);
+  state.cart.cart.reduce((sum, curr) => sum + curr.total_price, 0);
 
 export const getCurrentQuantityById = (id) => {
   return (state) =>
-    state.cart.cart.find((item) => item.pizzaId === id)?.quantity ?? 0;
+    state.cart.cart.find((item) => item.id === id)?.quantity ?? 0;
 };
 
 // reselect redux library to optimize the above selectors
