@@ -27,13 +27,14 @@ function Order() {
     id,
     status,
     priority,
-    priorityPrice,
-    orderPrice,
-    estimatedDelivery,
+    priority_price,
+    order_price,
+    total_order_amount,
+    estimated_delivery,
     cart,
   } = order;
 
-  const deliveryIn = calcMinutesLeft(estimatedDelivery);
+  const deliveryIn = calcMinutesLeft(estimated_delivery);
 
   return (
     <div className="space-y-8 px-4 py-6">
@@ -55,11 +56,11 @@ function Order() {
       <div className="flex flex-wrap items-center justify-between gap-2 bg-stone-200 px-6 py-5">
         <p className="font-medium">
           {deliveryIn >= 0
-            ? `Only ${calcMinutesLeft(estimatedDelivery)} minutes left 😃`
+            ? `Only ${calcMinutesLeft(estimated_delivery)} minutes left 😃`
             : 'Order should have arrived'}
         </p>
         <p className="text-xs text-stone-500">
-          (Estimated delivery: {formatDate(estimatedDelivery)})
+          (Estimated delivery: {formatDate(estimated_delivery)})
         </p>
       </div>
 
@@ -67,9 +68,9 @@ function Order() {
         {cart.map((item) => (
           <OrderItem
             item={item}
-            key={item.pizzaId}
+            key={item.id}
             ingredients={
-              fetcher?.data?.find((el) => el.id === item.pizzaId)
+              fetcher?.data?.find((el) => el.id === item.id)
                 ?.ingredients ?? []
             }
             isLoadingIngredients={fetcher.state === 'loading'}
@@ -79,15 +80,15 @@ function Order() {
 
       <div className="space-y-2 bg-stone-200 px-6 py-5">
         <p className="text-sm font-medium text-stone-600">
-          Price pizza: {formatCurrency(orderPrice)}
+          Price pizza: {formatCurrency(order_price)}
         </p>
         {priority && (
           <p className="text-sm font-medium text-stone-600">
-            Price priority: {formatCurrency(priorityPrice)}
+            Price priority: {formatCurrency(priority_price)}
           </p>
         )}
         <p className="font-bold">
-          To pay on delivery: {formatCurrency(orderPrice + priorityPrice)}
+          To pay on delivery: {formatCurrency(total_order_amount)}
         </p>
       </div>
       {!priority && <UpdateOrder order={order} />}

@@ -15,7 +15,7 @@ export async function getMenu() {
 }
 
 export async function getOrder(id) {
-  const res = await fetch(`${API_URL}/order/${id}`);
+  const res = await fetch(`${API_URL}/orders/${id}/`);
   if (!res.ok) throw Error(`Couldn't find order #${id}`);
 
   const { data } = await res.json();
@@ -42,7 +42,7 @@ export async function createOrder(newOrder) {
 
 export async function updateOrder(id, updateObj) {
   try {
-    const res = await fetch(`${API_URL}/order/${id}`, {
+    const res = await fetch(`${API_URL}/orders/${id}`, {
       method: 'PATCH',
       body: JSON.stringify(updateObj),
       headers: {

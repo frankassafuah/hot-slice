@@ -144,12 +144,10 @@ export async function action({ request }) {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
   const cart = JSON.parse(data.cart);
-  const totalOrderAmount = cart.reduce((acc, cur) => acc + cur.total_price, 0);
 
   const order = {
     ...data,
     cart,
-    total_order_amount: totalOrderAmount,
     priority: data.priority === 'true',
   };
 
